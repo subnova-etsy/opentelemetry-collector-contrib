@@ -61,7 +61,7 @@ func (e *HoneycombExporter) pushTraceData(ctx context.Context, td consumerdata.T
 		if err == nil {
 			serviceName := core.Key("service_name")
 			sd.Attributes = append(sd.Attributes, serviceName.String(td.Node.ServiceInfo.Name))
-			if sd.HasRemoteParent {
+			if !sd.ParentSpanID.IsValid() || sd.HasRemoteParent {
 				sd.Attributes = append(sd.Attributes,
 					convertNodeAttributes(td.Node.Attributes)...)
 			}
