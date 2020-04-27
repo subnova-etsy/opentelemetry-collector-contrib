@@ -13,3 +13,5 @@ require (
 	go.opentelemetry.io/otel v0.3.0
 	go.uber.org/zap v1.14.0
 )
+
+replace github.com/honeycombio/opentelemetry-exporter-go => github.com/subnova-etsy/opentelemetry-exporter-go v0.99.1
