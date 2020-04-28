@@ -44,6 +44,7 @@ func (f *Factory) CreateDefaultConfig() configmodels.Exporter {
 		APIKey:  "",
 		Dataset: "",
 		APIURL:  "https://api.honeycomb.io",
+		Debug:   false,
 	}
 }
 

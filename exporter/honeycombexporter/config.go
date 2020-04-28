@@ -24,4 +24,6 @@ type Config struct {
 	Dataset string `mapstructure:"dataset"`
 	// API URL to use (defaults to https://api.honeycomb.io)
 	APIURL string `mapstructure:"api_url"`
+	// Enable debug logging
+	Debug bool `mapstructure:"debug"`
 }

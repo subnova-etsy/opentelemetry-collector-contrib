@@ -38,6 +38,7 @@ func newHoneycombTraceExporter(cfg *Config) (component.TraceExporterOld, error) 
 		honeycomb.TargetingDataset(cfg.Dataset),
 		honeycomb.WithAPIURL(cfg.APIURL),
 		honeycomb.WithUserAgentAddendum(oTelCollectorUserAgentStr),
+		honeycomb.WithDebug(cfg.Debug),
 	)
 	if err != nil {
 		return nil, err

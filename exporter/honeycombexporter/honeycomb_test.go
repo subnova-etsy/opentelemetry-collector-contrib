@@ -33,7 +33,8 @@ import (
 )
 
 type honeycombData struct {
-	Data map[string]interface{} `json:"data"`
+	Data       map[string]interface{} `json:"data"`
+	SampleRate uint                   `json:"samplerate"`
 }
 
 func testingServer(callback func(data []honeycombData)) *httptest.Server {
@@ -201,5 +202,31 @@ func TestEmptyNode(t *testing.T) {
 
 	if diff := cmp.Diff(want, got); diff != "" {
 		t.Errorf("otel span: (-want +got):\n%s", diff)
+	}
+}
+
+func TestSamplerRate(t *testing.T) {
+	want := 37
+	td := consumerdata.TraceData{
+		Spans: []*tracepb.Span{
+			{
+				TraceId:                 []byte{0x01},
+				SpanId:                  []byte{0x02},
+				Name:                    &tracepb.TruncatableString{Value: "root"},
+				Kind:                    tracepb.Span_SERVER,
+				SameProcessAsParentSpan: &wrappers.BoolValue{Value: true},
+				Attributes: &tracepb.Span_Attributes{
+					AttributeMap: map[string]*tracepb.AttributeValue{
+						"sampler.rate": {Value: &tracepb.AttributeValue_IntValue{IntValue: int64(want)}},
+					},
+				},
+			},
+		},
+	}
+
+	got := testTraceExporter(td, t)
+
+	if got[0].SampleRate != uint(want) {
+		t.Errorf("sample rate: want %d got %d", want, got[0].SampleRate)
 	}
 }

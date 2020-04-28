@@ -10,6 +10,7 @@ exporters:
     api_key: "test-apikey"
     dataset: "test-dataset"
     api_url: "https://api.testhost.io"
+    debug: true
 
 service:
   pipelines:
